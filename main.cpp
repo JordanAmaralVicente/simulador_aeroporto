@@ -31,16 +31,16 @@ int verificaPista(pista *p);
 int main(){
 	pista *pista_1 = geraPista(pista_1), *pista_2 = geraPista(pista_2);
 	pista *pista_3 = geraPista(pista_3);
-	
 	int qtdPouso_1, qtdPouso_2; 
 	int qtdD_1, qtdD_2, qtdD_3;
-	int tempo = 100;
+	
+	int tempo = 10;
 	while(tempo != 0){
 		
-		/////////////////////////////////////////////////////
 		pista_1 = removeCombustivel(pista_1);
 		pista_2 = removeCombustivel(pista_2);
 		pista_3 = removeCombustivel(pista_3);
+		
 		//gera os avioes aleatorios/////////////////////////
 		aviao * av1 = geraAviaoPar(); //para pouso
 		aviao * av2 = geraAviaoPar(); //para pouso
@@ -114,9 +114,18 @@ int main(){
 		else if(qtdD_2 < qtdD_1 && qtdD_2 < qtdD_3){
 			pista_3 = insereDecolagem(pista_3,av6);
 		}
-		
+	
 		tempo--;
 	}
+	/** apenas para teste //////////////////////////////////////////////////////////////////////////////////
+	FILE *arq = fopen("saida.txt","w");
+	if(arq == NULL){
+		printf("ERRO AO ABRIR ARQ");
+	}
+	fprintf(arq, "ID: %d , COMBUSTIVEL: %d;\n", pista_1->fila_1->id ,pista_1->fila_1->combustivel); ///////
+	fclose(arq);
+	**///////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	return 0;
 }
 
@@ -159,15 +168,14 @@ pista * inserePista(pista *p, aviao *av){
 
 	aviao * auxFila_1 = p->fila_1; 
 	aviao * auxFila_2 = p->fila_2; 
-	
 	// verifica a quantidade de avioes em cada fila 
 	int aux1 = verificaFila(auxFila_1); 
 	int aux2 = verificaFila(auxFila_2); 
-	
-	if(aux1 < aux2){
+	if(aux1 <= aux2){
 		p->fila_1 = insereLista(p->fila_1, av);
+		
 	}
-	else if(aux2 < aux1){
+	if(aux2 < aux1){
 		p->fila_2 = insereLista(p->fila_2, av);
 	}
 	
@@ -179,12 +187,12 @@ aviao *insereLista(aviao * lista, aviao * av){
 	if(lista == NULL){
 		return av;
 	}
-	
+		
 	if (lista != NULL){
 		aviao *p = lista;
 		aviao *ant = NULL;
-		
 		while(p!=NULL){
+			
 			ant = p;
 			p = p->prox;
 		}
