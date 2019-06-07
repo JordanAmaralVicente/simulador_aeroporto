@@ -20,38 +20,100 @@ typedef struct pista{
 //declaracoes
 aviao * geraAviaoPar(void);
 aviao * geraAviaoImPar(void);
+pista * geraPista(pista *p);
+aviao * insereLista(aviao *lista, aviao* av);
 pista * inserePista(pista *p, aviao *av);
+pista * insereDecolagem(pista *p, aviao *av);
+pista * removeCombustivel(pista *p);
 int verificaFila(aviao *fila);
 int verificaPista(pista *p);
-aviao * insereLista(aviao *lista, aviao* av);
-pista * geraPista(pista *p);
-pista * removeCombustivel(pista *p);
 
 int main(){
-	pista *pista_1 = geraPista(pista_1), *pista_2 = geraPista(pista_2), *pista_3 = geraPista(pista_3);
-	int qtdPouso_1, qtdPouso_2, qtdDecolagem_1, qtdDecolagem_2, qtdDecolagem_3;
+	pista *pista_1 = geraPista(pista_1), *pista_2 = geraPista(pista_2);
+	pista *pista_3 = geraPista(pista_3);
 	
-	int tempo = 10;
+	int qtdPouso_1, qtdPouso_2; 
+	int qtdD_1, qtdD_2, qtdD_3;
+	int tempo = 100;
 	while(tempo != 0){
 		
+		/////////////////////////////////////////////////////
 		pista_1 = removeCombustivel(pista_1);
 		pista_2 = removeCombustivel(pista_2);
 		pista_3 = removeCombustivel(pista_3);
-		//gera os avioes aleatorios
+		//gera os avioes aleatorios/////////////////////////
 		aviao * av1 = geraAviaoPar(); //para pouso
 		aviao * av2 = geraAviaoPar(); //para pouso
 		aviao * av3 = geraAviaoPar(); //para pouso
 		aviao * av4 = geraAviaoImPar(); //para decolagem
 		aviao * av5 = geraAviaoImPar(); //para decolagem
 		aviao * av6 = geraAviaoImPar(); //para decolagem
-			
-		// verifica qual das duas pistas de pouso est· menor 
+		// verifica qual das duas pistas de pouso est√° menor 
 		qtdPouso_1 = verificaPista(pista_1);
 		qtdPouso_2 = verificaPista(pista_2);
-		// verifica qual das pistas de decolagem est· menor
-		qtdDecolagem_1 = verificaFila(pista_1->fila_3);
-		qtdDecolagem_2 = verificaFila(pista_1->fila_2);
-		//
+
+		if(qtdPouso_1 <= qtdPouso_2){
+			pista_1 = inserePista(pista_1, av1);
+		}else{
+			pista_2 = inserePista(pista_2, av1);
+		}
+		//verifica o tamanho das pistas 
+		qtdPouso_1 = verificaPista(pista_1);
+		qtdPouso_2 = verificaPista(pista_2);
+		if(qtdPouso_1 <= qtdPouso_2){
+			pista_1 = inserePista(pista_1, av2);
+		}else{
+			pista_2 = inserePista(pista_2, av2);
+		}
+		//verifica o tamanho das pistas 
+		qtdPouso_1 = verificaPista(pista_1);
+		qtdPouso_2 = verificaPista(pista_2);
+		if(qtdPouso_1 <= qtdPouso_2){
+			pista_1 = inserePista(pista_1, av3);
+		}else{
+			pista_2 = inserePista(pista_2, av3);
+		}
+		
+		// verifica qual das pistas de decolagem est√° menor
+		qtdD_1 = verificaFila(pista_1->fila_3);
+		qtdD_2 = verificaFila(pista_2->fila_3);
+		qtdD_3 = verificaFila(pista_3->fila_3);
+		
+		if(qtdD_1 <=qtdD_2 && qtdD_1<= qtdD_3){
+			pista_1 = insereDecolagem(pista_1,av4);
+		}
+		else if(qtdD_3 < qtdD_2 && qtdD_3 < qtdD_1){
+			pista_2 = insereDecolagem(pista_2,av4);
+		}
+		else if(qtdD_2 < qtdD_1 && qtdD_2 < qtdD_3){
+			pista_3 = insereDecolagem(pista_3,av4);
+		}
+		qtdD_1 = verificaFila(pista_1->fila_3);
+		qtdD_2 = verificaFila(pista_2->fila_3);
+		qtdD_3 = verificaFila(pista_3->fila_3);
+		
+		if(qtdD_1 <=qtdD_2 && qtdD_1<= qtdD_3){
+			pista_1 = insereDecolagem(pista_1,av5);
+		}
+		else if(qtdD_3 < qtdD_2 && qtdD_3 < qtdD_1){
+			pista_2 = insereDecolagem(pista_2,av5);
+		}
+		else if(qtdD_2 < qtdD_1 && qtdD_2 < qtdD_3){
+			pista_3 = insereDecolagem(pista_3,av5);
+		}
+		qtdD_1 = verificaFila(pista_1->fila_3);
+		qtdD_2 = verificaFila(pista_2->fila_3);
+		qtdD_3 = verificaFila(pista_3->fila_3);
+		
+		if(qtdD_1 <=qtdD_2 && qtdD_1<= qtdD_3){
+			pista_1 = insereDecolagem(pista_1,av6);
+		}
+		else if(qtdD_3 < qtdD_2 && qtdD_3 < qtdD_1){
+			pista_2 = insereDecolagem(pista_2,av6);
+		}
+		else if(qtdD_2 < qtdD_1 && qtdD_2 < qtdD_3){
+			pista_3 = insereDecolagem(pista_3,av6);
+		}
 		
 		tempo--;
 	}
@@ -71,6 +133,8 @@ pista * geraPista(pista *p){
 
 	return p;
 }
+
+
 //gera o aviao completo
 aviao * geraAviaoPar(void){
 
@@ -129,8 +193,26 @@ aviao *insereLista(aviao * lista, aviao * av){
 		return lista;
 	}
 }
+pista * insereDecolagem(pista *pst, aviao *av){
+	if(pst->fila_3 == NULL){
+		pst->fila_3 = av;
+		return pst;
+	}
+	if(pst->fila_3 != NULL){
+		aviao *p = pst->fila_3;
+		aviao *ant = NULL;
+		
+		while(p!=NULL){
+			ant = p;
+			p = p->prox;
+		}
+		ant->prox = av;
+		
+		return pst;
+	}
+}
 
-//verifica qual pista est· menor, porÈm so contando as pistas de pouso ////////////////////////////////////
+//verifica qual pista est√° menor, por√©m so contando as pistas de pouso ////////////////////////////////////
 int verificaPista(pista *p){
 	if(p == NULL){
 		return 0;
