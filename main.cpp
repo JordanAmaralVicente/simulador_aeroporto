@@ -55,10 +55,6 @@ int main() {
     srand(time(NULL));
     while (tempo != 0) {
 		
-		tira1 = verifica_fila(pista1);
-		tira2 = verifica_fila(pista2);
-		pista1 = remove_fila(tira1, pista1);
-		pista2 = remove_fila(tira2, pista2);
 		
         sorteioPouso = geracaoAviao();
         
@@ -103,8 +99,12 @@ int main() {
         removeCombustivel(pista2);
 
         tempo--;
-
-        //	system("pause");
+        tira1 = verifica_fila(pista1);
+		tira2 = verifica_fila(pista2);
+        printf("%d ***** %d\n", tira1, tira2);
+		pista1 = remove_fila(tira1, pista1);
+        pista2 = remove_fila(tira2, pista2);
+		system("pause");
         system("cls");
     }
     printf("%d\t%d\t%d\n", pista1->qtd1, pista1->qtd2, pista1->qtd3);
@@ -504,28 +504,44 @@ int verifica_fila(pista *p){
 			}
 		}
 	}
+	if(p1!= NULL && p2 == NULL & p3 == NULL){
+		return 1;
+	}
+	if(p1== NULL && p2 != NULL & p3 == NULL){
+		return 2;
+	}
+	if(p1== NULL && p2 == NULL & p3 != NULL){
+		return 3;
+	}
 	if(p == NULL){
 		return 0;
 	}
 }
 
 pista * remove_fila(int f, pista *p){
-
 	if(f ==1){
 		aviao *ant = p->f1;
 		aviao *aux = ant->prox;
 		free(p->f1);
 		p->f1 = aux;
-	}else if(f ==2){
+		return p;
+	} if(f ==2){
 		aviao *ant = p->f2;
 		aviao *aux = ant->prox;
 		free(p->f2);
 		p->f2 = aux;
-	}else if(f ==3){
+		return p;
+	}if(f ==3){
 		if(p->f3->prox == NULL){
 			free(p->f3);
 			p->f3 = NULL;
+			return p;
 		}
+		aviao *ant = p->f3;
+		aviao *aux = ant->prox;
+		free(p->f3);
+		p->f3 = aux;
+		return p;
 	}
 	
 	return p;
